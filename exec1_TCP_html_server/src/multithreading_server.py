@@ -3,12 +3,10 @@ import threading
 from socket import *
 from datetime import datetime
 
-# 固定的监听端口
 MAIN_SERVER_PORT = 8001
 SERVER_NAME = "192.168.43.96"
 
 
-# HTML 头生成器函数
 def html_header_gen(message, target_file, Error=False):
     completion = []
     try:
@@ -33,7 +31,6 @@ def html_header_gen(message, target_file, Error=False):
     return completion
 
 
-# 处理客户端请求
 def handle_client(client_socket, client_addr):
     try:
         message = client_socket.recv(2048)
@@ -72,7 +69,6 @@ def handle_client(client_socket, client_addr):
 
 # 主服务器监听
 def main():
-    # 创建主服务器套接字，监听固定端口
     serverSocket = socket(AF_INET, SOCK_STREAM)
     serverSocket.bind((SERVER_NAME, MAIN_SERVER_PORT))
     serverSocket.listen(5)
@@ -82,7 +78,6 @@ def main():
         client_socket, addr = serverSocket.accept()
         print(f"Received connection from {addr}")
 
-        # 启动新线程处理客户端请求
         client_thread = threading.Thread(target=handle_client, args=(client_socket, addr))
         client_thread.start()
     serverSocket.close()
